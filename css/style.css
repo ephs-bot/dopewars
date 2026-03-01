@@ -1,0 +1,1685 @@
+/* ── Reset & Base ────────────────────────────────────────── */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-card: #1a1a2e;
+    --bg-card-hover: #22223a;
+    --border: #2a2a3e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #8888aa;
+    --text-muted: #555577;
+    --accent: #00d4ff;
+    --accent-dim: #0088aa;
+    --green: #4ade80;
+    --green-dim: #166534;
+    --red: #ef4444;
+    --red-dim: #7f1d1d;
+    --yellow: #facc15;
+    --orange: #f97316;
+    --purple: #a855f7;
+    --font-mono: 'Courier New', 'Consolas', monospace;
+    --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    font-family: var(--font-main);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ── Screens ─────────────────────────────────────────────── */
+
+.screen {
+    display: none;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ── Setup Screen ────────────────────────────────────────── */
+
+.setup-content {
+    max-width: 600px;
+    width: 100%;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.game-title {
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: 8px;
+    color: var(--accent);
+    text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+}
+
+.game-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 48px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.setup-section {
+    margin-bottom: 40px;
+}
+
+.setup-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.setup-hint {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+.loan-tiers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.loan-tier-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-primary);
+}
+
+.loan-tier-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--tier-color);
+}
+
+.loan-tier-btn.selected {
+    border-color: var(--tier-color);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.2);
+    background: var(--bg-card-hover);
+}
+
+.tier-difficulty {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--tier-color);
+}
+
+.tier-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}
+
+.tier-interest {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.btn-start {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+    padding: 16px 48px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.btn-start:hover {
+    background: #33ddff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+}
+
+/* ── Game Screen Layout ──────────────────────────────────── */
+
+.game-layout {
+    max-width: 800px;
+    width: 100%;
+    padding: 0 16px 40px;
+}
+
+/* ── Header Bar ──────────────────────────────────────────── */
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+    position: sticky;
+    top: 0;
+    background: var(--bg-primary);
+    z-index: 10;
+}
+
+.header-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.stat-value.cash { color: var(--green); }
+.stat-value.debt { color: var(--red); }
+
+/* ── Location Banner ─────────────────────────────────────── */
+
+.location-banner {
+    text-align: center;
+    padding: 20px 0;
+    margin-bottom: 16px;
+}
+
+.location-name {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.location-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 4px;
+}
+
+/* ── Price Events ────────────────────────────────────────── */
+
+.price-events {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.event-banner {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+}
+
+.event-banner.spike {
+    background: var(--red-dim);
+    border: 1px solid var(--red);
+    color: var(--red);
+}
+
+.event-banner.crash {
+    background: var(--green-dim);
+    border: 1px solid var(--green);
+    color: var(--green);
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Market Table ────────────────────────────────────────── */
+
+.market-section {
+    margin-bottom: 24px;
+}
+
+.market-section h3, .travel-section h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.market-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.market-table th {
+    text-align: left;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.market-table th:last-child {
+    text-align: right;
+}
+
+.drug-row {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+}
+
+.drug-row:hover {
+    background: var(--bg-card);
+}
+
+.drug-row td {
+    padding: 12px;
+}
+
+.drug-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.drug-price {
+    font-family: var(--font-mono);
+    color: var(--yellow);
+    font-weight: 600;
+}
+
+.drug-held {
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+}
+
+.drug-avg-cost {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.drug-avg-cost.profit {
+    color: var(--green);
+}
+
+.drug-avg-cost.loss {
+    color: var(--red);
+}
+
+.drug-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.btn-buy, .btn-sell {
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-buy {
+    background: var(--green-dim);
+    color: var(--green);
+    border-color: var(--green);
+}
+
+.btn-buy:hover:not(:disabled) {
+    background: var(--green);
+    color: var(--bg-primary);
+}
+
+.btn-sell {
+    background: var(--red-dim);
+    color: var(--red);
+    border-color: var(--red);
+}
+
+.btn-sell:hover:not(:disabled) {
+    background: var(--red);
+    color: var(--bg-primary);
+}
+
+.btn-buy:disabled, .btn-sell:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* ── Travel Section ──────────────────────────────────────── */
+
+.travel-section {
+    margin-bottom: 24px;
+}
+
+.location-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.btn-travel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 8px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+}
+
+.btn-travel:hover:not(:disabled) {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-travel.current {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, 0.1);
+    cursor: default;
+}
+
+.btn-travel:disabled {
+    opacity: 0.6;
+}
+
+.here-badge {
+    display: block;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-top: 4px;
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+    overflow: hidden;
+    animation: modalIn 0.2s ease;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.dealer-modal {
+    display: flex;
+    flex-direction: column;
+}
+
+.dealer-image {
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+}
+
+.dealer-details {
+    padding: 20px;
+}
+
+.dealer-details h3 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+    color: var(--accent);
+}
+
+.dealer-price {
+    color: var(--yellow);
+    font-family: var(--font-mono);
+    margin-bottom: 16px;
+}
+
+.quantity-selector label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.qty-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.qty-btn {
+    flex: 1;
+    padding: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.qty-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+}
+
+.qty-input {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.qty-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.total-cost {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--yellow);
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-confirm {
+    flex: 1;
+    padding: 12px;
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.btn-confirm:hover:not(:disabled) {
+    background: #33ddff;
+}
+
+.btn-confirm:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.btn-cancel {
+    flex: 1;
+    padding: 12px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.btn-cancel:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+/* ── Game Over Screen ────────────────────────────────────── */
+
+.gameover-content {
+    max-width: 600px;
+    width: 100%;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.gameover-content h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: var(--red);
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+}
+
+.gameover-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    letter-spacing: 2px;
+}
+
+.score-display {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 32px;
+}
+
+.score-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+}
+
+.score-value {
+    font-size: 3rem;
+    font-weight: 900;
+    font-family: var(--font-mono);
+}
+
+.score-value.positive { color: var(--green); }
+.score-value.negative { color: var(--red); }
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-card-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+}
+
+.stat-card-value {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.stat-card-value.debt { color: var(--red); }
+
+/* ── Notification Toast ──────────────────────────────────── */
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 200;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    max-width: 90%;
+    text-align: center;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.notification.success {
+    background: var(--green-dim);
+    border: 1px solid var(--green);
+    color: var(--green);
+}
+
+.notification.error {
+    background: var(--red-dim);
+    border: 1px solid var(--red);
+    color: var(--red);
+}
+
+.notification.info {
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+/* ── Heat Bar ────────────────────────────────────────────── */
+
+.heat-stat {
+    min-width: 90px;
+}
+
+.heat-bar {
+    width: 70px;
+    height: 6px;
+    background: var(--bg-card);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 2px 0;
+}
+
+.heat-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.4s ease, background 0.4s ease;
+}
+
+/* ── Weapon Badge ─────────────────────────────────────────── */
+
+.weapon-badge {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 10px;
+    background: rgba(248, 113, 22, 0.15);
+    border: 1px solid var(--orange);
+    border-radius: 4px;
+    color: var(--orange);
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* ── Debt Paid ────────────────────────────────────────────── */
+
+.stat-value.paid { color: var(--green); }
+
+/* ── Action Buttons ──────────────────────────────────────── */
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.btn-action {
+    padding: 9px 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.btn-action:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+    border-color: var(--accent-dim);
+}
+
+.btn-action.btn-urgent {
+    border-color: var(--red);
+    color: var(--red);
+    background: var(--red-dim);
+}
+
+.btn-action.btn-active {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+/* ── Event Modal ─────────────────────────────────────────── */
+
+.event-modal {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.event-image {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    background: var(--bg-card);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+}
+
+.event-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+}
+
+.event-title.success-text { color: var(--green); }
+.event-title.danger-text  { color: var(--red); }
+
+.event-message {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    white-space: pre-line;
+}
+
+.event-choices {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.btn-event {
+    flex: 1;
+    padding: 12px 8px;
+    border-radius: 8px;
+    border: 2px solid;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+}
+
+.btn-run  { background: rgba(250,204,21,0.1); border-color: var(--yellow); color: var(--yellow); }
+.btn-fight { background: rgba(239,68,68,0.1);  border-color: var(--red);    color: var(--red); }
+.btn-bribe { background: rgba(74,222,128,0.1); border-color: var(--green);  color: var(--green); }
+
+.btn-run:hover  { background: var(--yellow); color: var(--bg-primary); }
+.btn-fight:hover { background: var(--red);    color: var(--bg-primary); }
+.btn-bribe:hover { background: var(--green);  color: var(--bg-primary); }
+
+.btn-event-ok {
+    padding: 12px 32px;
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 2px;
+    transition: all 0.15s;
+}
+
+.btn-event-ok:hover { background: #33ddff; }
+
+/* ── Modal Info Helpers ───────────────────────────────────── */
+
+.modal-info-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 6px 20px;
+    text-align: left;
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.modal-info-grid span:nth-child(even) {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-align: right;
+}
+
+.modal-flavor {
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+}
+
+.modal-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: left;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.modal-input-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    align-items: center;
+}
+
+.modal-input-row .qty-input {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.cash-display {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+/* ── Loan Shark Modal ────────────────────────────────────── */
+
+.loanshark-modal .event-image {
+    max-height: 160px;
+}
+
+/* ── Arms Dealer Modal ───────────────────────────────────── */
+
+.arms-modal {
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    padding: 20px;
+}
+
+.arms-modal h3 {
+    text-align: center;
+    width: 100%;
+    font-size: 1.4rem;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.arms-section {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.arms-section h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+}
+
+.arms-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 8px 12px;
+}
+
+.arms-section-header h4 {
+    padding: 0;
+    background: none;
+    border: none;
+    margin: 0;
+}
+
+.arms-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.weapon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.weapon-item:last-child {
+    border-bottom: none;
+}
+
+.weapon-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.weapon-name {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.weapon-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.weapon-price {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--yellow);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.badge-owned {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: rgba(74,222,128,0.15);
+    border: 1px solid var(--green);
+    color: var(--green);
+    white-space: nowrap;
+}
+
+.btn-buy-weapon, .btn-buy-upgrade {
+    padding: 6px 14px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.btn-buy-weapon:hover:not(:disabled), .btn-buy-upgrade:hover:not(:disabled) {
+    background: var(--accent);
+    color: var(--bg-primary);
+}
+
+.btn-buy-weapon:disabled, .btn-buy-upgrade:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* ── Stash Modal ─────────────────────────────────────────── */
+
+.stash-section {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 16px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.stash-section h4 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+/* ── Grade Badge ─────────────────────────────────────────── */
+
+.grade-badge {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 2.5rem;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    border: 3px solid;
+}
+
+.grade-S { color: var(--accent); border-color: var(--accent); text-shadow: 0 0 20px rgba(0,212,255,0.5); }
+.grade-A { color: var(--green); border-color: var(--green); }
+.grade-B { color: #86efac; border-color: #86efac; }
+.grade-C { color: var(--yellow); border-color: var(--yellow); }
+.grade-D { color: var(--orange); border-color: var(--orange); }
+.grade-F { color: var(--red); border-color: var(--red); }
+
+/* ── Duration Selector (Setup) ───────────────────────────── */
+
+.duration-tiers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.duration-btn {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-primary);
+}
+
+.duration-btn:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+}
+
+.duration-btn.selected {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, 0.08);
+}
+
+.duration-label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.duration-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+/* ── Modal Size Increase ─────────────────────────────────── */
+
+.modal {
+    max-width: 640px;
+}
+
+.dealer-image {
+    max-height: 340px;
+}
+
+.event-image {
+    max-height: 280px;
+}
+
+/* ── Stat Sub-label (interest rate under debt) ───────────── */
+
+.stat-sublabel {
+    font-size: 0.65rem;
+    color: var(--red);
+    letter-spacing: 1px;
+    font-family: var(--font-mono);
+}
+
+/* ── Current Location Label ──────────────────────────────── */
+
+.current-location-label {
+    margin-top: 10px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.current-location-label strong {
+    color: var(--accent);
+}
+
+/* ── Market Header & Sort Buttons ────────────────────────── */
+
+.market-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.market-header h3 {
+    margin-bottom: 0;
+}
+
+.sort-buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-sort {
+    padding: 4px 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+}
+
+.btn-sort:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.btn-sort.active {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ── Arms Dealer: Horizontal Cards ──────────────────────── */
+
+.arms-banner-img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    display: block;
+}
+
+.arms-section-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+}
+
+.weapon-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+}
+
+.weapon-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    background: var(--bg-secondary);
+}
+
+.weapon-card-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.weapon-card-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    flex: 1;
+}
+
+.weapon-card-price {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: var(--yellow);
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+/* ── Arms: Locked State ──────────────────────────────────── */
+
+.arms-lock-msg {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.arms-lock-msg strong {
+    color: var(--accent);
+}
+
+.lock-progress {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+/* ── End Game Button ─────────────────────────────────────── */
+
+.btn-end-game {
+    border-color: var(--red) !important;
+    color: var(--red) !important;
+}
+
+.btn-end-game:hover {
+    background: var(--red-dim) !important;
+}
+
+/* ── Leaderboard ─────────────────────────────────────────── */
+
+.leaderboard-save {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    width: 100%;
+    text-align: left;
+}
+
+.leaderboard-save h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.leaderboard-name-row {
+    display: flex;
+    gap: 8px;
+}
+
+.name-input {
+    flex: 1;
+    padding: 10px 14px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.leaderboard-section {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.leaderboard-empty {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 20px;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.leaderboard-table th {
+    text-align: left;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.leaderboard-table td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.leaderboard-table tr:last-child td {
+    border-bottom: none;
+}
+
+.lb-top td {
+    background: rgba(0, 212, 255, 0.05);
+}
+
+.lb-rank {
+    color: var(--text-muted);
+    font-weight: 700;
+    font-family: var(--font-mono);
+    width: 28px;
+}
+
+.lb-top .lb-rank {
+    color: var(--accent);
+}
+
+.lb-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.lb-score {
+    font-family: var(--font-mono);
+    color: var(--green);
+    font-weight: 700;
+}
+
+.lb-difficulty {
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+}
+
+.lb-days {
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+}
+
+.lb-date {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+/* ── Boss Event Banner ───────────────────────────────────── */
+
+.boss-banner {
+    border: 2px solid var(--boss-color, #ef4444);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--boss-color, #ef4444) 8%, var(--bg-secondary));
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    animation: bossGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes bossGlow {
+    from { box-shadow: 0 0 8px color-mix(in srgb, var(--boss-color, #ef4444) 20%, transparent); }
+    to   { box-shadow: 0 0 20px color-mix(in srgb, var(--boss-color, #ef4444) 50%, transparent); }
+}
+
+.boss-banner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.boss-name {
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: var(--boss-color, #ef4444);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+}
+
+.boss-timer {
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    color: var(--boss-color, #ef4444);
+    background: color-mix(in srgb, var(--boss-color, #ef4444) 15%, transparent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.boss-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 4px;
+}
+
+.boss-flavor {
+    font-size: 0.78rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.boss-event-title {
+    font-size: 1.6rem;
+    letter-spacing: 4px;
+}
+
+/* ── Perk Cards (Setup Screen) ───────────────────────────── */
+
+.perk-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.perk-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+.perk-card:hover {
+    border-color: var(--perk-color, var(--accent));
+    background: var(--bg-card-hover);
+}
+
+.perk-card.selected {
+    border-color: var(--perk-color, var(--accent));
+    background: color-mix(in srgb, var(--perk-color, var(--accent)) 10%, var(--bg-card));
+}
+
+.perk-icon {
+    font-size: 1.6rem;
+}
+
+.perk-name {
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--perk-color, var(--text-primary));
+}
+
+.perk-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* ── Locked Travel Location ──────────────────────────────── */
+
+.btn-travel.locked {
+    opacity: 0.45;
+    border-color: var(--red) !important;
+    color: var(--text-muted) !important;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.locked-badge {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* ── Intel Button (Insider Perk) ─────────────────────────── */
+
+.btn-intel {
+    border-color: #f97316 !important;
+    color: #f97316 !important;
+}
+
+.btn-intel:hover {
+    background: rgba(249, 115, 22, 0.1) !important;
+}
+
+/* ── Intel Modal ─────────────────────────────────────────── */
+
+.intel-modal {
+    align-items: flex-start;
+    text-align: left;
+    max-width: 100%;
+    width: 100%;
+}
+
+.intel-modal h3 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.intel-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 12px 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.intel-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+.intel-table th {
+    padding: 8px 10px;
+    background: var(--bg-card);
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+}
+
+.intel-table th:first-child {
+    text-align: left;
+}
+
+.intel-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: right;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+}
+
+.intel-table td.drug-name {
+    text-align: left;
+    font-family: var(--font-main);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.intel-table tr:last-child td {
+    border-bottom: none;
+}
+
+.intel-table .intel-current {
+    color: var(--accent);
+    font-weight: 700;
+    background: rgba(0, 212, 255, 0.06);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+    .game-title { font-size: 2.5rem; letter-spacing: 4px; }
+    .location-grid { grid-template-columns: repeat(2, 1fr); }
+    .loan-tiers { grid-template-columns: 1fr; }
+    .duration-tiers { grid-template-columns: repeat(2, 1fr); }
+    .perk-cards { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .game-header { flex-wrap: wrap; gap: 8px; }
+    .header-stat { min-width: 70px; }
+    .drug-actions { flex-direction: column; gap: 4px; }
+    .btn-buy, .btn-sell { padding: 4px 10px; font-size: 0.7rem; }
+    .action-buttons { grid-template-columns: repeat(2, 1fr); }
+    .event-choices { flex-direction: column; }
+    .weapon-cards-grid { grid-template-columns: 1fr; }
+    .market-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .sort-buttons { flex-wrap: wrap; }
+    .lb-difficulty, .lb-date { display: none; }
+}
