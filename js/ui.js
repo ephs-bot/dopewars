@@ -24,7 +24,7 @@ let sortMode = 'default';
 let selectedDuration = 30;
 let selectedPerk = 'no_perk';
 
-const IMAGE_BASE = 'Game Assets/revised/';
+const IMAGE_BASE = 'game-assets/revised/';
 
 // ── Screen Management ─────────────────────────────────────────────
 
